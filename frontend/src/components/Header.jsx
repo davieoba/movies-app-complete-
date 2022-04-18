@@ -18,7 +18,7 @@ const Header = (prop) => {
 
   // console.log(user?.data.user?.name)
   // console.log(user)
-  const initial = user && user?.data.user?.name.split(' ')[0][0]
+  const initial = user && user?.data?.user?.name?.split(' ')[0][0]
   // console.log(initial)
   return (
     <>

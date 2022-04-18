@@ -10,7 +10,7 @@ const createUser = async (user) => {
   const data = await response.json()
   console.log(data)
   return data
-}
+} 
 
 const logout = async () => {
   localStorage.removeItem('user')
