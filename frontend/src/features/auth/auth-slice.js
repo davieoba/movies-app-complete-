@@ -19,8 +19,10 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunk) => {
 
 export const login = createAsyncThunk('auth/login', async (userData, thunk) => {
   const data = await authService.login(userData)
+  // console.log(data.status)
 
   if (data.status === ('fail' || 'error')) {
+    // console.log('cannot login user')
     return thunk.rejectWithValue(data.message)
   }
 

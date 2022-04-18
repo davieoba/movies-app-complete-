@@ -25,7 +25,8 @@ const getMovie = async (id) => {
 }
 
 const createMovies = async (movieData, token) => {
-  console.log(movieData)
+  // console.log(movieData)
+  console.log(token)
   const response = await fetch(`http://localhost:8000/api/v1/movies`, {
     method: 'POST',
     headers: {

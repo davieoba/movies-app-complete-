@@ -39,6 +39,7 @@ export const createMovies = createAsyncThunk(
     // console.log(user)
     const data = await moviesService.createMovies(movieData, token)
 
+    console.log(data)
     if (data.status === ('fail' || 'error')) {
       // console.log(data.message)
       return thunk.rejectWithValue(data.message)

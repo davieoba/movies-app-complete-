@@ -25,6 +25,13 @@ function Login() {
     try {
       const response = await dispatch(login(formData))
       const data = unwrapResult(response)
+
+      console.log(data)
+
+      if(data.message !== 'success'){
+        return toast.error(data.message)
+      }
+
       toast.success('login successful')
       navigate('/')
     } catch (err) {

@@ -16,7 +16,7 @@ exports.createMovie = catchAsync(async (req, res, next) => {
   if (!movie) return next(new AppError('movie not created', 401))
 
   res.status(200).json({
-    message: 'Success',
+    message: 'success',
     data: {
       movie
     }

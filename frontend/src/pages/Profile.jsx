@@ -1,16 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './profile.module.css'
 import { GoGear } from 'react-icons/go'
 import { MdRateReview } from 'react-icons/md'
 import { IoIosCreate } from 'react-icons/io'
 import { useSelector, useDispatch } from 'react-redux'
-import {updatePassword, reset} from './../features/auth/auth-slice'
-import {createMovies, reset as resetMovies} from './../features/movies/movies-slice'
+import { updatePassword, reset } from './../features/auth/auth-slice'
+import {
+  createMovies,
+  reset as resetMovies
+} from './../features/movies/movies-slice'
 import Header from '../components/Header'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
+
 // import {}
 
 function Profile() {
+  const navigate = useNavigate()
   const password1 = useRef()
   const password2 = useRef()
   const dispatch = useDispatch()
@@ -52,8 +59,6 @@ function Profile() {
       setDisplayReviews(true)
       setDisplayMovies(false)
     }
-
-
   }, [path])
 
   function handleClick(e) {
@@ -109,12 +114,12 @@ function Profile() {
     dispatch(updatePassword(formPasswordData))
     dispatch(reset())
     // setFormPasswordData((prev) => {
-      
+
     // })
     formPasswordData.password2.value = ''
   }
 
-  function handleCreateMovie(e){
+  function handleCreateMovie(e) {
     setCreateFormData((prev) => {
       return {
         ...prev,
@@ -123,18 +128,29 @@ function Profile() {
     })
   }
 
-  function handleSubmitCreateMovie(e){
+  async function handleSubmitCreateMovie(e) {
     e.preventDefault()
     // dispatch some code here
-    dispatch(createMovies(createFormData))
-    dispatch(resetMovies())
+    try {
+      const response = await dispatch(createMovies(createFormData))
+      // const data = unwrapResult(response)
+      if(response.message !== 'success'){
+        return toast.error(response.message)
+      }
+      toast.success('Created successfully')
+      navigate('/')
+      
+    } catch (err) {
+      console.log(err)
+    }
+    
   }
 
   // console.log(createFormData)
 
   return (
     <>
-      <Header text='profile'/>
+      <Header text="profile" />
       <div id={styles.user}>
         <div id={styles.user_profile} className="shadow-2xl">
           <div id={styles.user_profile_menu}>
