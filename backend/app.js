@@ -15,10 +15,6 @@ app.use('/api/v1/movies', movieRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/reviews', reviewRouter)
 
-app.all('*', (req, res, next) => {
-  next(new AppError('this route does not exist', '404'))
-})
-
 // serve frontend
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')))
@@ -33,6 +29,10 @@ if (process.env.NODE_ENV === 'production') {
     })
   })
 }
+
+app.all('*', (req, res, next) => {
+  next(new AppError('this route does not exist', '404'))
+})
 
 app.use(globalErrorController)
 module.exports = app
