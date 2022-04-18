@@ -15,7 +15,8 @@ function Register() {
   const navigate = useNavigate()
   const { isError, isSuccess, message } = useSelector((state) => state.auth)
   const [formData, setFormData] = useState({
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -38,7 +39,8 @@ function Register() {
     }
 
     const userData = {
-      name: formData.username,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
       passwordConfirm: formData.confirmPassword
@@ -64,17 +66,28 @@ function Register() {
               <div id={styles.img_container}>
                 {/* <img src={signup} id={styles.img} alt="signup" /> */}
               </div>
-              <form action="" id={styles.form} autoComplete="off" onSubmit={handleSubmit}>
+              <form
+                action=""
+                id={styles.form}
+                autoComplete="off"
+                onSubmit={handleSubmit}
+              >
                 <img src={signup_img} id={styles.signup_img} />
                 <h1>Register</h1>
                 <input
                   type="text"
                   placeholder="Firstname"
-                  name="username"
+                  name="firstName"
                   onChange={handleClick}
-                  value={formData.username}
+                  value={formData.firstName}
                 />
-                <input type="text" placeholder="Lastname" />
+                <input
+                  type="text"
+                  placeholder="Lastname"
+                  name="lastName"
+                  onChange={handleClick}
+                  value={formData.lastName}
+                />
                 <input
                   type="text"
                   placeholder="email"

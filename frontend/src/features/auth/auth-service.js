@@ -1,4 +1,5 @@
 const createUser = async (user) => {
+  console.log(user)
   const response = await fetch(`http://localhost:8000/api/v1/users/signup`, {
     method: 'POST',
     headers: {

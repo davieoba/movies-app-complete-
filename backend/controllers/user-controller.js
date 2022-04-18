@@ -5,16 +5,18 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const catchAsync = require('./../utils/catchAsync')
 const AppError = require('./../utils/app-error')
-const util = require('util')
-const sendEmail = require('./../utils/sendmail')
+// const util = require('util')
+// const sendEmail = require('./../utils/sendmail')
 const crypto = require('crypto')
 const Email = require('./../utils/Email')
 
 exports.signup = catchAsync(async (req, res, next) => {
   const user = await User.create({
-    name: req.body.name,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm
   })
 
   if (!user)

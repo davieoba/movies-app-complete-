@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, reset } from '../features/auth/auth-slice'
 import styles from './header.module.css'
+import {CgProfile} from 'react-icons/cg'
 
 const Header = (prop) => {
   const { user } = useSelector((state) => state.auth)
@@ -23,8 +24,11 @@ const Header = (prop) => {
   // console.log(user?.data.user?.name)
   // console.log(user)
   // console.log(initial)
-  const initial = user && user?.data?.user?.name?.split(' ')[0][0]
+  // console.log(user)
+  // const initial =
+  //   user === undefined ? '' : user?.data?.user?.name?.split(' ')[0][0]
 
+  // console.log(initial)
   return (
     <>
       <header id={prop.text === undefined ? styles.header : styles.header_1}>
@@ -54,7 +58,7 @@ const Header = (prop) => {
                 <Link to={`/user/${user?.data?.user?._id}/settings`}>
                   <div className="avatar placeholder">
                     <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                      <span className="text-xs"> {initial} </span>
+                      <span className="text-xs"> <CgProfile fill='#fafaff' size={23}/> </span>
                     </div>
                   </div>
                 </Link>
@@ -83,7 +87,6 @@ const Header = (prop) => {
 }
 
 export default Header
-
 
 // bond@gmail.com
 // 1234567
