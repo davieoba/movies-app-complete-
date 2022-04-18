@@ -9,7 +9,8 @@ export const signup = createAsyncThunk('auth/signup', async (user, thunk) => {
   }
 
   localStorage.setItem('user', JSON.stringify(data))
-  return data
+  return thunk.fulfillWithValue(data)
+  // return data
 })
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunk) => {
@@ -24,24 +25,27 @@ export const login = createAsyncThunk('auth/login', async (userData, thunk) => {
   }
 
   localStorage.setItem('user', JSON.stringify(data))
-  return data
+  return thunk.fulfillWithValue(data)
+
+  // return data
 })
 
 export const updatePassword = createAsyncThunk(
   'auth/updatepassword',
   async (userData, thunk) => {
     const token = thunk.getState().auth.user.token
-    console.log(token, userData)
+    // console.log(token, userData)
     const data = await authService.updatePassword(userData, token)
 
-    console.log(data)
+    // console.log(data)
     if (data.message === ('status' || 'fail')) {
       return thunk.rejectWithValue(data.message)
     }
 
     localStorage.setItem('user', JSON.stringify(data))
+    return thunk.fulfillWithValue(data)
 
-    return data
+    // return data
   }
 )
 
@@ -50,7 +54,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: '',
-  user: user ? user : undefined,
+  user: user ? JSON.parse(localStorage.getItem('user')) : undefined,
   users: [],
   loading: false,
   loggedIn: {}

@@ -8,30 +8,18 @@ import Header from '../components/Header'
 import styles from './register.module.css'
 import Footer from '../components/Footer'
 import signup_img from './../img/signup.svg'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 function Register() {
   const dispatch = useDispatch()
-  const { isError, isSuccess, message } = useSelector((state) => state.auth)
   const navigate = useNavigate()
+  const { isError, isSuccess, message } = useSelector((state) => state.auth)
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: ''
   })
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message)
-      dispatch(reset())
-    }
-
-    if (isSuccess) {
-      toast.success('Created successfully')
-      dispatch(reset())
-      navigate('/')
-    }
-  }, [isError, isSuccess, dispatch, message, navigate])
 
   const handleClick = (e) => {
     setFormData((prev) => {
@@ -42,7 +30,7 @@ function Register() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log('clicked')
     if (formData.password !== formData.confirmPassword) {
@@ -55,8 +43,17 @@ function Register() {
       password: formData.password,
       passwordConfirm: formData.confirmPassword
     }
-    dispatch(signup(userData))
+
+    try {
+      const response = await dispatch(signup(userData))
+      const data = unwrapResult(response)
+      toast.success('registration successful')
+      navigate('/')
+    } catch (err) {
+      console.log(err)
+    }
   }
+
   return (
     <>
       <Header text="register" />
@@ -67,7 +64,7 @@ function Register() {
               <div id={styles.img_container}>
                 {/* <img src={signup} id={styles.img} alt="signup" /> */}
               </div>
-              <form action="" id={styles.form} autoComplete="off">
+              <form action="" id={styles.form} autoComplete="off" onSubmit={handleSubmit}>
                 <img src={signup_img} id={styles.signup_img} />
                 <h1>Register</h1>
                 <input

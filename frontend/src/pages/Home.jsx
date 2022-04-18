@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import logo1 from './../img1.jpg'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 function Home() {
   const movies = useSelector((state) => state.movie)
@@ -13,13 +14,22 @@ function Home() {
 
   // console.log(movies)
   useEffect(() => {
-    dispatch(getMovies())
-    dispatch(reset())
-  }, [])
+    const fn = async () => {
+      try {
+        const response = await dispatch(getMovies())
+        const data = unwrapResult(response)
+        // return data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fn()
+  }, [getMovies])
 
   const dataElements =
     movies?.movies.data?.movies &&
-    movies.movies.data.movies.map((el) => {
+    movies?.movies?.data?.movies.map((el) => {
       return (
         <div className={styles.movies_obj} key={el._id}>
           <div className={styles.img_container}>
@@ -46,7 +56,9 @@ function Home() {
             </p>
 
             <Link to={`/movies/${el._id}`} className={styles.movies_link}>
-              <button className={styles.btn_link} id={styles.btn}>more ...</button>
+              <button className={styles.btn_link} id={styles.btn}>
+                more ...
+              </button>
             </Link>
           </div>
         </div>

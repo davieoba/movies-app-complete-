@@ -4,13 +4,10 @@ import Footer from './../components/Footer'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getMovie, reset } from './../features/movies/movies-slice'
-import {
-  createReview,
-  getReviews,
-  reset as reviewReset
-} from './../features/reviews/review-slice'
+import { createReview, getReviews } from './../features/reviews/review-slice'
 import { useParams } from 'react-router-dom'
 import logo from './../img1.jpg'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 function Movie() {
   const [showReview, setShowReview] = useState(false)
@@ -25,16 +22,24 @@ function Movie() {
     review: ''
   })
 
-  // console.log(movie?.data?.movie)
+  // console.log(movie)
   // console.log(id)
   // console.log(user)
   useEffect(() => {
-    dispatch(getMovie(id))
-    dispatch(reset())
-    dispatch(getReviews(id))
-    // dispatch(reviewReset())
-    // if()
-  }, [id, getReviews, reviewReset])
+    const fn = async () => {
+      try {
+        const response = await dispatch(getMovie(id))
+        // const data = unwrapResult(response)
+
+        const reviewRes = await dispatch(getReviews(id))
+        // const reviewData = unwrapResult(reviewRes)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fn()
+  }, [id, getReviews, getMovie])
 
   function handleChange(e) {
     setReviewForm((prev) => {
@@ -48,7 +53,7 @@ function Movie() {
 
   // console.log(reviewForm)
 
-  function handleReviewSubmit(e) {
+  async function handleReviewSubmit(e) {
     e.preventDefault()
 
     const review = {
@@ -57,8 +62,11 @@ function Movie() {
       rating: reviewForm.rating,
       review: reviewForm.review
     }
-
-    dispatch(createReview(review))
+    try {
+      await dispatch(createReview(review))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // console.log(reviews)
@@ -98,11 +106,7 @@ function Movie() {
       <div id={styles.movies} className={styles.all_reviews}>
         <div id={styles.movie_obj} className="shadow-xl">
           <div id={styles.img_container}>
-            <img
-              className=""
-              src={logo}
-              alt="Man looking at item at a store"
-            />
+            <img className="" src={logo} alt="Man looking at item at a store" />
           </div>
           <div id={styles.movie_details}>
             <h1 className="text-md font-extrabold">
@@ -150,7 +154,9 @@ function Movie() {
           {reviewElement}
 
           <div className="new_review" id={styles.new_review}>
-            <h2 className={styles.new_review_user}>What do you think 🤔? -  LEAVE A REVIEW</h2>
+            <h2 className={styles.new_review_user}>
+              What do you think 🤔? - LEAVE A REVIEW
+            </h2>
             <form onSubmit={handleReviewSubmit}>
               <div className="rating rating-md" id={styles.rating}>
                 <h3>RATE THE MOVIE: </h3>
@@ -192,7 +198,9 @@ function Movie() {
               </div>
               <textarea
                 className="textarea textarea-bordered"
-                placeholder="Review 350 characters"
+                placeholder={
+                  user ? 'Review 350 characters' : 'login to leave a review'
+                }
                 name="review"
                 id={styles.review}
                 value={reviewForm.review}

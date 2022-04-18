@@ -8,18 +8,23 @@ const Header = (prop) => {
   const dispatch = useDispatch()
   const navigate = useNavigate(0)
 
-  const handleClick = () => {
-    dispatch(logout())
-    dispatch(reset())
-    navigate('/')
+  const handleClick = async () => {
+    try {
+      await dispatch(logout())
+      await dispatch(reset())
+      navigate('/login')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  console.log(prop.text)
+  // console.log(prop.text)
 
   // console.log(user?.data.user?.name)
   // console.log(user)
-  const initial = user && user?.data?.user?.name?.split(' ')[0][0]
   // console.log(initial)
+  const initial = user && user?.data?.user?.name?.split(' ')[0][0]
+
   return (
     <>
       <header id={prop.text === undefined ? styles.header : styles.header_1}>
@@ -36,13 +41,17 @@ const Header = (prop) => {
             {user?.message === 'success' ? (
               <div className={styles.at_login}>
                 <Link to="/">
-                  <button className={styles.btn} onClick={handleClick} id={styles.logout} >
+                  <button
+                    className={styles.btn}
+                    onClick={handleClick}
+                    id={styles.logout}
+                  >
                     {' '}
                     Logout{' '}
                   </button>
                 </Link>
 
-                <Link to={`/user/${user?.data.user._id}/settings`}>
+                <Link to={`/user/${user?.data?.user?._id}/settings`}>
                   <div className="avatar placeholder">
                     <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
                       <span className="text-xs"> {initial} </span>
@@ -74,3 +83,7 @@ const Header = (prop) => {
 }
 
 export default Header
+
+
+// bond@gmail.com
+// 1234567

@@ -8,7 +8,7 @@ export const createReview = createAsyncThunk(
 
     const data = await reviewService.createReview(reviewData, token)
 
-    console.log(data)
+    // console.log(data)
 
     if (
       data.message === ('fail' || 'error' || 'jwt expired') ||
@@ -22,7 +22,8 @@ export const createReview = createAsyncThunk(
 
     // console.log(data)
 
-    return data
+    // return data
+    return thunk.fulfillWithValue(data)
   }
 )
 
@@ -35,12 +36,13 @@ export const getReviews = createAsyncThunk(
     // console.log(data)
 
     if (data.status === ('fail' || 'error')) {
-      thunk.rejectWithValue(data.message)
+      return thunk.rejectWithValue(data.message)
     }
 
     // console.log(data)
 
-    return data
+    // return data
+    return thunk.fulfillWithValue(data)
   }
 )
 
@@ -78,8 +80,23 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviews.fulfilled, (state, action) => {
         state.loading = false
-        // state.isSuccess = true
+        state.isSuccess = true
         state.reviews = action.payload
+      })
+      .addCase(createReview.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(createReview.rejected, (state, action) => {
+        state.loading = false
+        state.isSuccess = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(createReview.fulfilled, (state, action) => {
+        state.loading = false
+        state.isSuccess = true
+        state.isError = false
+        state.review = action.payload
       })
   }
 })

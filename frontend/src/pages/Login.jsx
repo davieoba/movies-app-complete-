@@ -8,6 +8,7 @@ import styles from './login.module.css'
 import Header from './../components/Header'
 import Footer from './../components/Footer'
 import login_img from './../img/login.svg'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -19,24 +20,16 @@ function Login() {
   const { isSuccess, isError, message } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(isError, isSuccess)
-    if (isSuccess) {
-      // toast.success('Login successful')
-      dispatch(reset())
-      navigate('/')
-    }
-
-    if (isError) {
-      toast.error(message)
-      dispatch(reset())
-    }
-  }, [isSuccess, isError, message, dispatch, navigate])
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
-    dispatch(login(formData))
+    try {
+      const response = await dispatch(login(formData))
+      const data = unwrapResult(response)
+      toast.success('login successful')
+      navigate('/')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const handleChange = (e) => {
@@ -58,9 +51,9 @@ function Login() {
               <div id={styles.img_container}>
                 {/* <img src={login} alt="login" id={styles.img} /> */}
               </div>
-              <form id={styles.form} onSubmit={handleSubmit} autoComplete='off'>
-                <img src={login_img} id={styles.login_img}/>
-              <h1>Login</h1>
+              <form id={styles.form} onSubmit={handleSubmit} autoComplete="off">
+                <img src={login_img} id={styles.login_img} />
+                <h1>Login</h1>
                 <input
                   type="text"
                   placeholder="email"
@@ -87,7 +80,7 @@ function Login() {
             </div>
           </section>
         </main>
-          <Footer />
+        <Footer />
       </div>
     </>
   )
