@@ -41,6 +41,16 @@ const movieSchema = new mongoose.Schema({
   },
   directors: {
     type: [String]
+  },
+  series: {
+    type: Boolean
+  },
+  movie: {
+    type: Boolean
+  },
+  period: {
+    type: String,
+    default: ''
   }
 })
 

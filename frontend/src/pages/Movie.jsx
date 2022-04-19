@@ -102,8 +102,8 @@ function Movie() {
 
   return (
     <>
-      <Header />
-      <div id={styles.movies} className={styles.all_reviews}>
+      <Header text="movies" />
+      <div id={styles.movies}>
         <div id={styles.movie_obj} className="shadow-xl">
           <div id={styles.img_container}>
             <img className="" src={logo} alt="Man looking at item at a store" />
@@ -147,6 +147,14 @@ function Movie() {
             </p>
           </div>
         </div>
+
+        <div className={styles.movie_actors}></div>
+        <div className={styles.movie_summary_details}></div>
+        <div className={styles.movie_trivia}></div>
+        <div className={styles.movie_photos}></div>
+        <div className={styles.movie_cast}></div>
+        <div className={styles.movie_similar}></div>
+        <div className={styles.movie_awards}></div>
 
         <div className={styles.movie_reviews}>
           <h1 className={styles.movie_review_title}>Movie Reviews</h1>
@@ -206,8 +214,10 @@ function Movie() {
                 value={reviewForm.review}
                 onChange={handleChange}
               ></textarea>
+
               <button
-                className="btn btn-xs btn-primary"
+                className="btn"
+                id={styles.review_btn}
                 disabled={user?.message === 'success' ? false : true}
                 type="submit"
               >
