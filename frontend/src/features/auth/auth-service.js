@@ -1,6 +1,6 @@
 const createUser = async (user) => {
   console.log(user)
-  const response = await fetch(`http://localhost:8000/api/v1/users/signup`, {
+  const response = await fetch(`/api/v1/users/signup`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -18,7 +18,7 @@ const logout = async () => {
 }
 
 const login = async (userData) => {
-  const response = await fetch('http://localhost:8000/api/v1/users/login', {
+  const response = await fetch('/api/v1/users/login', {
     method: 'POST',
     body: JSON.stringify(userData),
     headers: {
@@ -32,7 +32,7 @@ const login = async (userData) => {
 
 const updatePassword = async (userData, token) => {
   const response = await fetch(
-    `http://localhost:8000/api/v1/users/updatepassword`,
+    `/api/v1/users/updatepassword`,
     {
       method: 'POST',
       body: JSON.stringify(userData),

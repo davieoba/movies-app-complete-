@@ -1,5 +1,5 @@
 const createReview = async (reviewData, token) => {
-  const response = await fetch(`http://localhost:8000/api/v1/reviews`, {
+  const response = await fetch(`/api/v1/reviews`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -14,7 +14,7 @@ const createReview = async (reviewData, token) => {
 }
 
 const getReviews = async (id) => {
-  const response = await fetch(`http://localhost:8000/api/v1/reviews/${id}`, {
+  const response = await fetch(`/api/v1/reviews/${id}`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json'

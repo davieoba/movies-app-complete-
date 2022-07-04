@@ -10,6 +10,7 @@ const globalErrorController = require('./controllers/error-controller')
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(express.static('build'))
 
 app.use('/api/v1/movies', movieRouter)
 app.use('/api/v1/users', userRouter)

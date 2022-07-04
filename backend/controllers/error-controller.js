@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: './../.env'
+  path: './.env'
 })
 
 // so error has the following properties on them (message, status, statusCode, isOperational and stacktrace)

@@ -1,5 +1,5 @@
 const getMovies = async () => {
-  const response = await fetch(`http://localhost:8000/api/v1/movies`, {
+  const response = await fetch(`/api/v1/movies`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json'
@@ -12,7 +12,7 @@ const getMovies = async () => {
 }
 
 const getMovie = async (id) => {
-  const response = await fetch(`http://localhost:8000/api/v1/movies/${id}`, {
+  const response = await fetch(`/api/v1/movies/${id}`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json'
@@ -27,7 +27,7 @@ const getMovie = async (id) => {
 const createMovies = async (movieData, token) => {
   // console.log(movieData)
   console.log(token)
-  const response = await fetch(`http://localhost:8000/api/v1/movies`, {
+  const response = await fetch(`/api/v1/movies`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',

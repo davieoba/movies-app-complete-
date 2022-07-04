@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: './backend/.env'
+  path: './.env'
 })
 const app = require('./app')
 const mongoose = require('mongoose')
